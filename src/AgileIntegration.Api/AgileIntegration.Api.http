@@ -1,0 +1,6 @@
+@AgileIntegration.Api_HostAddress = http://localhost:5079
+
+GET {{AgileIntegration.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
