@@ -7,11 +7,10 @@ using Microsoft.VisualStudio.Services.WebApi;
 using Microsoft.VisualStudio.Services.WebApi.Patch;
 using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
 
-namespace AgileIntegration.Modules.AzureDevOps.UseCases.CreateTask;
-
-public class CreateTaskUseCase : AzureDevOpsUseCase
+namespace AgileIntegration.Modules.AzureDevOps.UseCases.CreateIssue;
+public class CreateIssueUseCase : AzureDevOpsUseCase
 {
-    public CreateTaskUseCase(
+    public CreateIssueUseCase(
         string organization,
         string personalAccessToken,
         string project,
@@ -22,7 +21,7 @@ public class CreateTaskUseCase : AzureDevOpsUseCase
             url)
     { }
 
-    public async Task<CreateTaskUseCaseOutput> Handle(CreateTaskUseCaseInput input)
+    public async Task<CreateIssueUseCaseOutput> Handle(CreateIssueUseCaseInput input)
     {
         Uri uri = new Uri($"{_url}/{_organization}");
         VssBasicCredential credentials =
@@ -85,9 +84,9 @@ public class CreateTaskUseCase : AzureDevOpsUseCase
         try
         {
             WorkItem result = await workItemTrackingHttpClient
-                .CreateWorkItemAsync(document, _project, "Task");
+                .CreateWorkItemAsync(document, _project, "Issue");
 
-            return new CreateTaskUseCaseOutput
+            return new CreateIssueUseCaseOutput
             {
                 Id = result.Id,
                 Title = input.Title
