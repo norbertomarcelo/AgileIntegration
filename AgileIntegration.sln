@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9B1F66A4-74E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ECA17CED-4AF1-4C37-91CF-11AC30571FF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileIntegration.UnitTests", "tests\AgileIntegration.UnitTests\AgileIntegration.UnitTests.csproj", "{10E78A50-2FCE-4588-B63E-2204A109B086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.UnitTests", "tests\AgileIntegration.UnitTests\AgileIntegration.UnitTests.csproj", "{10E78A50-2FCE-4588-B63E-2204A109B086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileIntegration.Api", "src\AgileIntegration.Api\AgileIntegration.Api.csproj", "{0DCB3060-FBCA-40D6-B015-73FC3797346A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.Api", "src\AgileIntegration.Api\AgileIntegration.Api.csproj", "{0DCB3060-FBCA-40D6-B015-73FC3797346A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileIntegration.Modules.AzureDevOps", "src\AgileIntegration.Modules.AzureDevOps\AgileIntegration.Modules.AzureDevOps.csproj", "{F858F328-E133-4F8B-A08A-691DDA62CCF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.Modules.AzureDevOps", "src\AgileIntegration.Modules.AzureDevOps\AgileIntegration.Modules.AzureDevOps.csproj", "{F858F328-E133-4F8B-A08A-691DDA62CCF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
