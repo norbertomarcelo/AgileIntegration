@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AgileIntegration.Modules.Notion\AgileIntegration.Modules.Notion.csproj" />
     <ProjectReference Include="..\AgileIntegration.Modules.AzureDevOps\AgileIntegration.Modules.AzureDevOps.csproj" />
   </ItemGroup>
 
