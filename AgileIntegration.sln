@@ -11,10 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.Api", "src\AgileIntegration.Api\AgileIntegration.Api.csproj", "{0DCB3060-FBCA-40D6-B015-73FC3797346A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgileIntegration.Modules.AzureDevOps", "src\AgileIntegration.Modules.AzureDevOps\AgileIntegration.Modules.AzureDevOps.csproj", "{F858F328-E133-4F8B-A08A-691DDA62CCF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileIntegration.Modules.Notion", "AgileIntegration.Modules.Notion\AgileIntegration.Modules.Notion.csproj", "{2C06AF20-02FB-43FB-9FD8-77F80422E731}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,14 +25,6 @@ Global
 		{0DCB3060-FBCA-40D6-B015-73FC3797346A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DCB3060-FBCA-40D6-B015-73FC3797346A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DCB3060-FBCA-40D6-B015-73FC3797346A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F858F328-E133-4F8B-A08A-691DDA62CCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F858F328-E133-4F8B-A08A-691DDA62CCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F858F328-E133-4F8B-A08A-691DDA62CCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F858F328-E133-4F8B-A08A-691DDA62CCF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C06AF20-02FB-43FB-9FD8-77F80422E731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C06AF20-02FB-43FB-9FD8-77F80422E731}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C06AF20-02FB-43FB-9FD8-77F80422E731}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C06AF20-02FB-43FB-9FD8-77F80422E731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,8 +32,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{10E78A50-2FCE-4588-B63E-2204A109B086} = {ECA17CED-4AF1-4C37-91CF-11AC30571FF8}
 		{0DCB3060-FBCA-40D6-B015-73FC3797346A} = {9B1F66A4-74E2-4DA5-B4A9-36F0EC9330E7}
-		{F858F328-E133-4F8B-A08A-691DDA62CCF8} = {9B1F66A4-74E2-4DA5-B4A9-36F0EC9330E7}
-		{2C06AF20-02FB-43FB-9FD8-77F80422E731} = {9B1F66A4-74E2-4DA5-B4A9-36F0EC9330E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {322F6C12-1222-4878-8FAA-A889BF5EA0BC}
