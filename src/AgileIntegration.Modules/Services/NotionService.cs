@@ -19,11 +19,11 @@ public class NotionService : ICommonServices
         _databaseId = databaseId;
     }
 
-    public async Task<CreateTaskOutput> CreateTask(CreateTaskInput input)
+    public async Task CreateTask(CreateTaskInput input)
     {
-        if (TaskAlreadyExists(input.Title).Result)
+        if (TaskAlreadyExists(input).Result)
             throw new Exception(
-                $"There is already a card with the given title \"{input.Name}\"");
+                $"There is already a card with the given title \"{input.Title}\"");
 
         using var httpClient = new HttpClient();
 
@@ -70,5 +70,15 @@ public class NotionService : ICommonServices
         var queryParams = new DatabasesQueryParameters { Filter = filter };
         var pages = await client.Databases.QueryAsync(_databaseId, queryParams);
         return pages.Results.Count > 0;
+    }
+
+    public bool ValidateTask(CreateTaskInput input, out string errorMessage)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<CreateTaskOutput> ICommonServices.CreateTask(CreateTaskInput input)
+    {
+        throw new NotImplementedException();
     }
 }

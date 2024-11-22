@@ -2,8 +2,8 @@
 
 public enum Priority
 {
-    P1,
-    P2,
-    P3,
-    P4
+    P1 = 1,
+    P2 = 2,
+    P3 = 3,
+    P4 = 4
 }

@@ -1,4 +1,5 @@
-﻿using AgileIntegration.Modules.Notion.UseCases.CreateRow;
+﻿using AgileIntegration.Modules.Dtos;
+using AgileIntegration.Modules.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileIntegration.Api.Controllers;
@@ -18,15 +19,15 @@ public class NotionController : ControllerBase
     }
 
     [HttpPost("/row")]
-    public IActionResult CreateRow([FromBody] CreateRowUseCaseInput input)
+    public IActionResult CreateRow([FromBody] CreateTaskInput input)
     {
-        var useCase = new CreateRowUseCase(
+        var service = new NotionService(
             _configuration.GetValue<string>("Notion:PersonalAccessToken"),
             _configuration.GetValue<string>("Notion:DatabaseId"));
 
         try
         {
-            var exists = useCase.Handle(input);
+            var exists = service.CreateTask(input);
 
             return Ok();
         }

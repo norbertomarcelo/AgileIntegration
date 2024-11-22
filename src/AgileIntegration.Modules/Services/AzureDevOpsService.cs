@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.Services.WebApi;
 using Microsoft.VisualStudio.Services.WebApi.Patch;
 using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
 
-
 namespace AgileIntegration.Modules.Services;
 
 public class AzureDevOpsService : ICommonServices
@@ -38,16 +37,16 @@ public class AzureDevOpsService : ICommonServices
 
     public async Task<CreateTaskOutput> CreateTask(CreateTaskInput input)
     {
+        if (!ValidateTask(input, out string errorMessage))
+            throw new InvalidDataException(errorMessage);
+
+        if (!TaskAlreadyExists(input).Result)
+            throw new ArgumentException($"There is already a task registered with the title {input.Title}");
+
         Uri uri = new Uri($"{_url}/{_organization}");
         VssBasicCredential credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
         VssConnection connection = new VssConnection(uri, credentials);
         WorkItemTrackingHttpClient workItemTrackingHttpClient = connection.GetClient<WorkItemTrackingHttpClient>();
-
-        if (ValidateTask(input, out string errorMessage))
-            throw new InvalidDataException(errorMessage);
-
-        if (TaskAlreadyExists(input).Result)
-            throw new ArgumentException(input.Title);
 
         JsonPatchDocument document = new JsonPatchDocument();
 
@@ -133,15 +132,19 @@ public class AzureDevOpsService : ICommonServices
     {
         errorMessage = string.Empty;
 
-        if (string.IsNullOrWhiteSpace(input.Title))
+        if (string.IsNullOrWhiteSpace(input.Title)
+            || input.Title.Length < 3
+            || input.Title.Length > 116)
         {
-            errorMessage = "The Title is required.";
+            errorMessage = "The Title is invalid.";
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(input.Description))
+        if (string.IsNullOrWhiteSpace(input.Description)
+            || input.Description.Length < 3
+            || input.Description.Length > 512)
         {
-            errorMessage = "The Description is required.";
+            errorMessage = "The Description is invalid.";
             return false;
         }
 
