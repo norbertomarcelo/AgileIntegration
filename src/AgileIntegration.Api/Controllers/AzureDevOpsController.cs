@@ -44,33 +44,4 @@ public class AzureDevOpsController : ControllerBase
         }
 
     }
-
-    //[HttpPost("/issue")]
-    //public async Task<IActionResult> CreateIssue(
-    //    [FromBody] CreateIssueUseCaseInput input)
-    //{
-    //    var useCase = new CreateIssueUseCase(
-    //        _configuration.GetValue<string>("AzureDevOps:Organization"),
-    //        _configuration.GetValue<string>("AzureDevOps:PersonalAccessToken"),
-    //        _configuration.GetValue<string>("AzureDevOps:Project"),
-    //        _configuration.GetValue<string>("AzureDevOps:Url"));
-
-    //    try
-    //    {
-    //        var output = await useCase.Handle(input);
-    //        _logger.LogInformation(
-    //            $"Work Item with title \"{output.Title}\" was created successfully. Check ID {output.Id}");
-    //        return StatusCode(201);
-    //    }
-    //    catch (WorkItemAlreadyExistsException ex)
-    //    {
-    //        _logger.LogError(ex.Message);
-    //        return BadRequest(ex.Message);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        _logger.LogError(ex.Message);
-    //        return Problem(ex.Message);
-    //    }
-    //}
 }
