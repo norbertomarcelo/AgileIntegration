@@ -28,7 +28,6 @@ public class NotionController : ControllerBase
         try
         {
             var exists = service.CreateTask(input);
-
             return Ok();
         }
         catch (Exception ex)

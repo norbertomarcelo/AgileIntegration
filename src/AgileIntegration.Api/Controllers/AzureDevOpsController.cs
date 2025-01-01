@@ -42,6 +42,5 @@ public class AzureDevOpsController : ControllerBase
             _logger.LogError(ex.Message);
             return BadRequest(ex.Message);
         }
-
     }
 }

@@ -22,8 +22,7 @@ public class NotionService : ICommonServices
     public async Task CreateTask(CreateTaskInput input)
     {
         if (TaskAlreadyExists(input).Result)
-            throw new Exception(
-                $"There is already a card with the given title \"{input.Title}\"");
+            throw new Exception($"There is already a card with the given title \"{input.Title}\"");
 
         using var httpClient = new HttpClient();
 

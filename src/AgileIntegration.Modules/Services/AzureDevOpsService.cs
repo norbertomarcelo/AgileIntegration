@@ -47,7 +47,6 @@ public class AzureDevOpsService : ICommonServices
         VssBasicCredential credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
         VssConnection connection = new VssConnection(uri, credentials);
         WorkItemTrackingHttpClient workItemTrackingHttpClient = connection.GetClient<WorkItemTrackingHttpClient>();
-
         JsonPatchDocument document = new JsonPatchDocument();
 
         document.Add(
