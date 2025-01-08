@@ -23,11 +23,11 @@ public class AzureDevOpsController : ControllerBase
         [FromBody] CreateTaskInput input)
     {
         var service = new AzureDevOpsService(
-            _configuration.GetValue<string>("AzureDevOps:Organization"),
-            _configuration.GetValue<string>("AzureDevOps:Organization"),
+            _configuration.GetValue<string>("AzureDevOps:AreaPath"),
             _configuration.GetValue<string>("AzureDevOps:Organization"),
             _configuration.GetValue<string>("AzureDevOps:PersonalAccessToken"),
             _configuration.GetValue<string>("AzureDevOps:Project"),
+            _configuration.GetValue<string>("AzureDevOps:TeamProject"),
             _configuration.GetValue<string>("AzureDevOps:Url"));
 
         try

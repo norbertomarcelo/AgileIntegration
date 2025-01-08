@@ -4,7 +4,7 @@ namespace AgileIntegration.Modules.Interfaces;
 
 public interface ICommonServices
 {
-    public Task<bool> TaskAlreadyExists(CreateTaskInput input);
-    public bool ValidateTask(CreateTaskInput input, out string errorMessage);
+    public Task<ValidationOutput> TaskAlreadyExists(CreateTaskInput input);
+    public ValidationOutput ValidateTask(CreateTaskInput input);
     public Task<CreateTaskOutput> CreateTask(CreateTaskInput input);
 }

@@ -37,17 +37,21 @@ public class AzureDevOpsService : ICommonServices
 
     public async Task<CreateTaskOutput> CreateTask(CreateTaskInput input)
     {
-        if (!ValidateTask(input, out string errorMessage))
-            throw new InvalidDataException(errorMessage);
+        var taskIsValid = ValidateTask(input);
+        if (!taskIsValid.IsValid) throw new InvalidDataException(taskIsValid.ErrorMessage);
 
-        if (!TaskAlreadyExists(input).Result)
-            throw new ArgumentException($"There is already a task registered with the title {input.Title}");
+        var taskAlreadyExists = await TaskAlreadyExists(input);
+        if (!taskAlreadyExists.IsValid) throw new ArgumentException(taskAlreadyExists.ErrorMessage);
 
-        Uri uri = new Uri($"{_url}/{_organization}");
-        VssBasicCredential credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
-        VssConnection connection = new VssConnection(uri, credentials);
-        WorkItemTrackingHttpClient workItemTrackingHttpClient = connection.GetClient<WorkItemTrackingHttpClient>();
-        JsonPatchDocument document = new JsonPatchDocument();
+        var stateValue = (input.Status == 1) ? "To Do"
+            : (input.Status == 2) ? "Doing" : "Done";
+
+
+        var uri = new Uri($"{_url}/{_organization}");
+        var credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
+        var connection = new VssConnection(uri, credentials);
+        var httpClient = connection.GetClient<WorkItemTrackingHttpClient>();
+        var document = new JsonPatchDocument();
 
         document.Add(
             new JsonPatchOperation()
@@ -69,16 +73,24 @@ public class AzureDevOpsService : ICommonServices
             new JsonPatchOperation()
             {
                 Operation = Operation.Add,
-                Path = "/fields/System.State",
-                Value = input.Status
+                Path = "/fields/System.Title",
+                Value = input.Title
             }
         );
         document.Add(
             new JsonPatchOperation()
             {
                 Operation = Operation.Add,
-                Path = "/fields/System.Title",
-                Value = input.Title
+                Path = "/fields/System.Description",
+                Value = $"<div>{input.Description}</div>"
+            }
+        );
+        document.Add(
+            new JsonPatchOperation()
+            {
+                Operation = Operation.Add,
+                Path = "/fields/System.State",
+                Value = stateValue
             }
         );
         document.Add(
@@ -92,8 +104,7 @@ public class AzureDevOpsService : ICommonServices
 
         try
         {
-            WorkItem result = await workItemTrackingHttpClient
-                .CreateWorkItemAsync(document, _project, "Task");
+            await httpClient.CreateWorkItemAsync(document, _project, "Task");
 
             return new CreateTaskOutput
             {
@@ -109,12 +120,8 @@ public class AzureDevOpsService : ICommonServices
         }
     }
 
-    public async Task<bool> TaskAlreadyExists(CreateTaskInput input)
+    public async Task<ValidationOutput> TaskAlreadyExists(CreateTaskInput input)
     {
-        Uri uri = new Uri($"{_url}/{_organization}");
-        VssBasicCredential credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
-        using var httpClient = new WorkItemTrackingHttpClient(uri, new VssCredentials(credentials));
-
         var wiql = new Wiql()
         {
             Query = "Select [Id] " +
@@ -123,42 +130,61 @@ public class AzureDevOpsService : ICommonServices
                 "And [System.Title] = '" + input.Title + "' ",
         };
 
+        var uri = new Uri($"{_url}/{_organization}");
+        var credentials = new VssBasicCredential(string.Empty, _personalAccessToken);
+        var connection = new VssConnection(uri, credentials);
+        var httpClient = connection.GetClient<WorkItemTrackingHttpClient>();
         var workItemList = await httpClient.QueryByWiqlAsync(wiql);
-        return workItemList.WorkItems.Count() > 0;
+
+        if (workItemList.WorkItems.Count() > 0)
+        {
+            return new ValidationOutput
+            {
+                IsValid = false,
+                ErrorMessage = $"There is already a task registered with the title: {input.Title}"
+            };
+        }
+
+        return new ValidationOutput { IsValid = true };
     }
 
-    public bool ValidateTask(CreateTaskInput input, out string errorMessage)
+    public ValidationOutput ValidateTask(CreateTaskInput input)
     {
-        errorMessage = string.Empty;
+        var isValid = true;
+        var errorMessage = string.Empty;
 
         if (string.IsNullOrWhiteSpace(input.Title)
             || input.Title.Length < 3
             || input.Title.Length > 116)
         {
-            errorMessage = "The Title is invalid.";
-            return false;
+            isValid = false;
+            errorMessage += "The Title is invalid.\n";
         }
 
         if (string.IsNullOrWhiteSpace(input.Description)
             || input.Description.Length < 3
             || input.Description.Length > 512)
         {
-            errorMessage = "The Description is invalid.";
-            return false;
+            isValid = false;
+            errorMessage += "The Description is invalid.\n";
         }
 
         if (!Enum.IsDefined(typeof(Priority), input.Priority))
         {
-            errorMessage = "The Priority is invalid.";
-            return false;
+            isValid = false;
+            errorMessage += "The Priority is invalid.\n";
         }
 
         if (!Enum.IsDefined(typeof(Status), input.Status))
         {
-            errorMessage = "The Status is invalid.";
-            return false;
+            isValid = false;
+            errorMessage += "The Status is invalid.\n";
         }
 
-        return true;
+        return new ValidationOutput
+        {
+            IsValid = isValid,
+            ErrorMessage = errorMessage
+        };
     }
 }
